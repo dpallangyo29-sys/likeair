@@ -1,0 +1,364 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-surface: var(--surface);
+  --color-surface-elevated: var(--surface-elevated);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-teal: var(--teal);
+  --color-teal-foreground: var(--teal-foreground);
+  --color-coral: var(--coral);
+  --color-coral-foreground: var(--coral-foreground);
+  --color-whatsapp: var(--whatsapp);
+  --color-whatsapp-foreground: var(--whatsapp-foreground);
+  --font-display: "Space Grotesk", "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+}
+
+:root {
+  --radius: 1rem;
+
+  /* DARK — Charcoal / Obsidian brand (default) */
+  --background: #0d0f12;
+  --foreground: #f5f7fa;
+  --surface: #161920;
+  --surface-elevated: #1c2028;
+  --card: #161920;
+  --card-foreground: #f5f7fa;
+  --popover: #161920;
+  --popover-foreground: #f5f7fa;
+
+  --primary: #00f2fe;
+  --primary-foreground: #0d0f12;
+  --secondary: #232833;
+  --secondary-foreground: #f5f7fa;
+
+  --muted: #1f232c;
+  --muted-foreground: #9aa3b2;
+  --accent: #ff6b35;
+  --accent-foreground: #0d0f12;
+  --destructive: #ef4444;
+  --destructive-foreground: #ffffff;
+
+  --border: rgba(255, 255, 255, 0.09);
+  --input: rgba(255, 255, 255, 0.12);
+  --ring: #00f2fe;
+
+  --teal: #00f2fe;
+  --teal-foreground: #0d0f12;
+  --coral: #ff6b35;
+  --coral-foreground: #0d0f12;
+  --whatsapp: #25d366;
+  --whatsapp-foreground: #ffffff;
+
+  --gradient-teal: linear-gradient(135deg, #00f2fe, #22d3ee);
+  --gradient-coral: linear-gradient(135deg, #ff8a5b, #ff4d2e);
+  --shadow-glow-teal: 0 8px 40px -10px rgba(0, 242, 254, 0.45);
+  --shadow-glow-coral: 0 8px 40px -10px rgba(255, 107, 53, 0.45);
+}
+
+/* LIGHT theme — activated by `.light` class on <html> */
+html.light {
+  --background: #f5f7fb;
+  --foreground: #0d0f12;
+  --surface: #ffffff;
+  --surface-elevated: #eef1f7;
+  --card: #ffffff;
+  --card-foreground: #0d0f12;
+  --popover: #ffffff;
+  --popover-foreground: #0d0f12;
+
+  --primary: #06b6d4;
+  --primary-foreground: #ffffff;
+  --secondary: #e5eaf2;
+  --secondary-foreground: #0d0f12;
+
+  --muted: #e9ecf2;
+  --muted-foreground: #5a6474;
+  --accent: #ff6b35;
+  --accent-foreground: #ffffff;
+
+  --border: rgba(13, 15, 18, 0.1);
+  --input: rgba(13, 15, 18, 0.15);
+  --ring: #06b6d4;
+
+  --teal: #06b6d4;
+  --teal-foreground: #ffffff;
+  --coral: #ff6b35;
+  --coral-foreground: #ffffff;
+  --whatsapp: #25d366;
+  --whatsapp-foreground: #ffffff;
+
+  --shadow-glow-teal: 0 10px 40px -12px rgba(6, 182, 212, 0.35);
+  --shadow-glow-coral: 0 10px 40px -12px rgba(255, 107, 53, 0.35);
+}
+
+* {
+  border-color: var(--color-border);
+}
+
+html,
+body,
+#root {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  min-height: 100dvh;
+  -webkit-text-size-adjust: 100%;
+  transition:
+    background-color 0.4s ease,
+    color 0.3s ease;
+}
+
+body {
+  background-image:
+    radial-gradient(
+      1200px 600px at 10% -10%,
+      color-mix(in oklab, var(--teal) 18%, transparent),
+      transparent 60%
+    ),
+    radial-gradient(
+      900px 500px at 110% 10%,
+      color-mix(in oklab, var(--coral) 16%, transparent),
+      transparent 60%
+    ),
+    radial-gradient(
+      800px 600px at 50% 120%,
+      color-mix(in oklab, var(--teal) 10%, transparent),
+      transparent 60%
+    );
+  background-attachment: fixed;
+}
+
+h1,
+h2,
+h3,
+h4,
+.font-display {
+  font-family: var(--font-display);
+  letter-spacing: -0.02em;
+}
+
+/* ==============================
+   Animated ambient glow orbs
+   ============================== */
+@keyframes glowDrift {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 0.85;
+  }
+  50% {
+    transform: translate3d(30px, -20px, 0) scale(1.08);
+    opacity: 1;
+  }
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 0.85;
+  }
+}
+@keyframes glowDriftAlt {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 0.8;
+  }
+  50% {
+    transform: translate3d(-25px, 25px, 0) scale(1.1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 0.8;
+  }
+}
+@keyframes glowPulse {
+  0%,
+  100% {
+    opacity: 0.45;
+  }
+  50% {
+    opacity: 0.9;
+  }
+}
+@keyframes sheen {
+  0% {
+    transform: translateX(-120%) skewX(-20deg);
+  }
+  100% {
+    transform: translateX(220%) skewX(-20deg);
+  }
+}
+
+@utility glow-orb {
+  animation: glowDrift 14s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+@utility glow-orb-alt {
+  animation: glowDriftAlt 18s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+@utility glow-pulse {
+  animation: glowPulse 4s ease-in-out infinite;
+}
+
+@utility glass {
+  background: color-mix(in oklab, var(--surface) 65%, transparent);
+  backdrop-filter: blur(20px) saturate(160%);
+  border: 1px solid color-mix(in oklab, var(--foreground) 8%, transparent);
+}
+
+@utility glow-teal {
+  box-shadow: var(--shadow-glow-teal);
+}
+@utility glow-coral {
+  box-shadow: var(--shadow-glow-coral);
+}
+
+@utility no-scrollbar {
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  scrollbar-width: none;
+}
+
+@utility safe-bottom {
+  padding-bottom: max(1rem, env(safe-area-inset-bottom));
+}
+
+@utility pwa-nav {
+  bottom: max(1rem, env(safe-area-inset-bottom));
+}
+
+@utility pwa-post {
+  bottom: max(6rem, calc(6rem + env(safe-area-inset-bottom)));
+}
+
+/* ==============================
+   Polished button system
+   ============================== */
+@utility btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-weight: 800;
+  border-radius: 9999px;
+  padding: 0.65rem 1.1rem;
+  font-size: 0.8rem;
+  letter-spacing: -0.01em;
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease,
+    border-color 0.2s ease,
+    opacity 0.2s ease;
+  overflow: hidden;
+  isolation: isolate;
+  border: 1px solid transparent;
+  cursor: pointer;
+  user-select: none;
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      120deg,
+      transparent 0%,
+      color-mix(in oklab, var(--foreground) 22%, transparent) 45%,
+      transparent 90%
+    );
+    transform: translateX(-120%) skewX(-20deg);
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+  }
+  &:hover {
+    transform: translateY(-1px);
+  }
+  &:hover::before {
+    opacity: 0.85;
+    animation: sheen 0.9s ease forwards;
+  }
+  &:active {
+    transform: translateY(0) scale(0.98);
+  }
+  &:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+    transform: none;
+  }
+  &:focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+  }
+}
+
+@utility btn-primary {
+  background: linear-gradient(
+    135deg,
+    var(--teal),
+    color-mix(in oklab, var(--teal) 60%, var(--coral))
+  );
+  color: var(--teal-foreground);
+  box-shadow: var(--shadow-glow-teal);
+  &:hover {
+    box-shadow: 0 12px 50px -10px color-mix(in oklab, var(--teal) 65%, transparent);
+  }
+}
+
+@utility btn-coral {
+  background: linear-gradient(135deg, #ff8a5b, var(--coral));
+  color: var(--coral-foreground);
+  box-shadow: var(--shadow-glow-coral);
+  &:hover {
+    box-shadow: 0 12px 50px -10px color-mix(in oklab, var(--coral) 65%, transparent);
+  }
+}
+
+@utility btn-whatsapp {
+  background: linear-gradient(135deg, #34e37a, var(--whatsapp));
+  color: var(--whatsapp-foreground);
+  box-shadow: 0 8px 40px -10px color-mix(in oklab, var(--whatsapp) 55%, transparent);
+  &:hover {
+    box-shadow: 0 12px 50px -10px color-mix(in oklab, var(--whatsapp) 65%, transparent);
+  }
+}
+
+@utility btn-ghost {
+  background: color-mix(in oklab, var(--surface) 90%, transparent);
+  color: var(--foreground);
+  border: 1px solid var(--border);
+  &:hover {
+    border-color: color-mix(in oklab, var(--teal) 45%, transparent);
+    background: color-mix(in oklab, var(--surface-elevated) 90%, transparent);
+  }
+}

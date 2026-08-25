@@ -1,0 +1,19 @@
+{
+  "name": "LikeAir - Campus Marketplace & Opportunities",
+  "short_name": "LikeAir",
+  "description": "Buy, sell, hire, work, and discover around your campus or city.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#0d0f12",
+  "theme_color": "#0d0f12",
+  "icons": [
+    {
+      "src": "/likeair_logo.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
