@@ -10,11 +10,8 @@ Complete step-by-step guide to enable all authentication methods for your LikeAi
 - **Sign In**: Login with email/password
 - **Status**: Fully working, no configuration needed
 
-### 2. ⚠️ Google OAuth (Requires Setup)
-
-- **Sign In/Up**: Single click with Google account
-- **Status**: Needs Google OAuth configuration in Supabase
-- **Setup Time**: 5-10 minutes
+Google sign-in is currently disabled. LikeAir uses email/password authentication while the
+authentication roadmap is being finalized.
 
 ---
 
