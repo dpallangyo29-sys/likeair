@@ -64,7 +64,7 @@ export const Route = createFileRoute("/_authenticated/profile")({
   component: ProfilePage,
 });
 
-type Tab = "identity" | "posts" | "saved" | "billing";
+type Tab = "identity" | "posts" | "saved";
 
 function ProfilePage() {
   const { user } = useAuth();
@@ -111,14 +111,12 @@ function ProfilePage() {
           <TabBtn active={tab === "identity"} onClick={() => setTab("identity")} label="Identity" />
           <TabBtn active={tab === "posts"} onClick={() => setTab("posts")} label="My Posts" />
           <TabBtn active={tab === "saved"} onClick={() => setTab("saved")} label="Saved" />
-          <TabBtn active={tab === "billing"} onClick={() => setTab("billing")} label="Billing" />
         </div>
 
         <div className="mt-6">
           {tab === "identity" && <IdentityPanel />}
           {tab === "posts" && <PostsPanel />}
           {tab === "saved" && <SavedPanel />}
-          {tab === "billing" && <BillingPanel />}
         </div>
       </div>
     </div>
@@ -437,6 +435,14 @@ function IdentityPanel() {
           {saving ? "Saving…" : "Save store"}
         </button>
       </Card>
+
+      <Link
+        to="/business"
+        className="flex w-full items-center justify-center gap-2 rounded-2xl border border-teal/40 bg-teal/5 py-3 text-sm font-black text-teal transition hover:bg-teal/10"
+      >
+        <Briefcase className="h-4 w-4" />
+        LikeAir Business
+      </Link>
     </div>
   );
 }

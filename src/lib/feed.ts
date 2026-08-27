@@ -8,6 +8,8 @@ export type SellerLite = {
   verified: boolean;
   store_name: string | null;
   store_slug: string | null;
+  business_name?: string | null;
+  business_verified?: boolean;
 };
 
 export type ProductRow = {
@@ -63,7 +65,7 @@ async function attachSellers<T extends { seller_id?: string; poster_id?: string 
   if (ids.length === 0) return rows.map((r) => ({ ...r, [outKey]: null })) as never;
   const { data } = await supabase
     .from("seller_profiles")
-    .select("id, full_name, avatar_url, campus_id, verified, store_name, store_slug")
+    .select("id, full_name, avatar_url, campus_id, verified, store_name, store_slug, business_name, business_verified")
     .in("id", ids);
   const map = new Map<string, SellerLite>(
     (data ?? []).filter((s) => !!s.id).map((s) => [s.id as string, s as SellerLite]),
@@ -214,13 +216,15 @@ export type StoreOwner = {
   store_name: string | null;
   store_slug: string | null;
   store_bio: string | null;
+  business_name?: string | null;
+  business_verified?: boolean;
 };
 
 export async function fetchStoreBySlug(slug: string) {
   const { data, error } = await supabase
     .from("seller_profiles")
     .select(
-      "id, full_name, avatar_url, campus_id, region, verified, store_name, store_slug, store_bio",
+      "id, full_name, avatar_url, campus_id, region, verified, store_name, store_slug, store_bio, business_name, business_verified",
     )
     .ilike("store_slug", slug)
     .maybeSingle();

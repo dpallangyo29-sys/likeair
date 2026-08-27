@@ -5,7 +5,6 @@ import {
   ArrowLeft,
   Package,
   Briefcase,
-  Megaphone,
   Upload,
   Sparkles,
   X,
@@ -34,7 +33,7 @@ export const Route = createFileRoute("/_authenticated/post")({
   component: PostPage,
 });
 
-type PostKind = "product" | "gig" | "ad";
+type PostKind = "product" | "gig";
 
 function PostPage() {
   const [kind, setKind] = useState<PostKind>("product");
@@ -124,7 +123,7 @@ function PostPage() {
           </p>
         </div>
 
-        <div className="mt-5 grid grid-cols-3 gap-2">
+        <div className="mt-5 grid grid-cols-2 gap-2">
           <KindTile
             active={kind === "product"}
             onClick={() => setKind("product")}
@@ -139,19 +138,11 @@ function PostPage() {
             label="Gig"
             tint="coral"
           />
-          <KindTile
-            active={kind === "ad"}
-            onClick={() => setKind("ad")}
-            icon={<Megaphone className="h-4 w-4" />}
-            label="Ad"
-            tint="whatsapp"
-          />
         </div>
 
         <div className="mt-6">
           {kind === "product" && <ProductForm />}
           {kind === "gig" && <GigForm />}
-          {kind === "ad" && <AdForm />}
         </div>
       </div>
     </div>

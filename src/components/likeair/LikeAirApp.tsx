@@ -33,6 +33,7 @@ import { ProductCard } from "./ProductCard";
 import { GigCard } from "./GigCard";
 import { ThemeToggle } from "./ThemeToggle";
 import { toast } from "sonner";
+import { getEligiblePromotions, type Promotion } from "@/lib/business";
 
 const ItemDetailDrawer = lazy(() =>
   import("./ItemDetailDrawer").then((module) => ({ default: module.ItemDetailDrawer })),
@@ -96,6 +97,11 @@ export function LikeAirApp() {
 
   const { data: campuses = [] } = useQuery({ queryKey: ["campuses"], queryFn: fetchCampuses });
   const activeCampus = campuses.find((c) => c.id === campusId) ?? null;
+  const promotionsQ = useQuery({
+    queryKey: ["eligible-promotions", activeCampus?.name, region],
+    queryFn: () => getEligiblePromotions(region ?? activeCampus?.name ?? undefined),
+    staleTime: 60_000,
+  });
 
   // Likes require authenticated ownership; browser session IDs are not trusted.
   useEffect(() => {
@@ -706,6 +712,9 @@ export function LikeAirApp() {
 
       {/* Feed — swipe left/right to switch between Marketplace and Gigs */}
       <main className="mx-auto max-w-2xl px-4 pt-5">
+        {promotionsQ.data && promotionsQ.data.length > 0 && (
+          <PromotionStrip promotions={promotionsQ.data} />
+        )}
         <motion.div
           key={tab}
           drag="x"
@@ -902,6 +911,28 @@ export function LikeAirApp() {
         </div>
       )}
     </div>
+  );
+}
+
+function PromotionStrip({ promotions }: { promotions: Promotion[] }) {
+  return (
+    <section className="mb-4 rounded-2xl border border-teal/30 bg-teal/5 p-3">
+      <div className="mb-2 flex items-center gap-2 text-[10px] font-bold tracking-widest text-teal">
+        <Sparkles className="h-3 w-3" /> PROMOTED ON LIKEAIR
+      </div>
+      <div className="flex gap-3 overflow-x-auto no-scrollbar">
+        {promotions.map((promotion) => (
+          <article key={promotion.id} className="min-w-[230px] flex-1 overflow-hidden rounded-xl border border-border bg-surface">
+            {promotion.image_url && <img src={promotion.image_url} alt="" className="h-24 w-full object-cover" />}
+            <div className="p-3">
+              <div className="text-sm font-bold line-clamp-2">{promotion.title}</div>
+              <div className="mt-1 text-[10px] text-muted-foreground">{promotion.category} · {promotion.location}</div>
+              {promotion.message && <p className="mt-2 text-xs text-muted-foreground line-clamp-2">{promotion.message}</p>}
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
   );
 }
 

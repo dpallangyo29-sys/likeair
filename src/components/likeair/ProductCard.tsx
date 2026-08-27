@@ -188,6 +188,9 @@ function ProductCardComponent({
                   {seller?.full_name || "Campus Seller"}
                 </span>
                 {seller?.verified && <BadgeCheck className="h-3 w-3 text-teal shrink-0" />}
+                {seller?.business_verified && (
+                  <span className="text-[9px] font-bold text-whatsapp">Business</span>
+                )}
               </div>
             </div>
           </Link>
@@ -207,6 +210,9 @@ function ProductCardComponent({
                   {seller?.full_name || "Campus Seller"}
                 </span>
                 {seller?.verified && <BadgeCheck className="h-3 w-3 text-teal shrink-0" />}
+                {seller?.business_verified && (
+                  <span className="text-[9px] font-bold text-whatsapp">Business</span>
+                )}
               </div>
             </div>
           </div>

@@ -25,6 +25,13 @@ import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import { getOpenReports, updateContentReport, type ContentReport } from "@/lib/content-reports";
 import { setUserBan, setUserVerification } from "@/lib/account-moderation";
+import {
+  getAdminBusinessApplications,
+  getAdminBusinessPayments,
+  getAdminPromotions,
+  reviewBusinessApplication,
+  type BusinessApplication,
+} from "@/lib/business";
 
 export const Route = createFileRoute("/_authenticated/admin")({
   head: () => ({
@@ -76,6 +83,9 @@ type Tab =
   | "gigs"
   | "ads"
   | "reports"
+  | "business"
+  | "promotions"
+  | "payments"
   | "activity";
 
 function ConsoleShell() {
@@ -105,7 +115,7 @@ function ConsoleShell() {
         <p className="text-xs text-muted-foreground">LikeAir · private administration</p>
 
         <div className="mt-6 flex flex-wrap gap-2">
-          {(["overview", "users", "campuses", "products", "gigs", "ads", "reports", "activity"] as Tab[]).map(
+          {(["overview", "users", "campuses", "products", "gigs", "ads", "reports", "business", "promotions", "payments", "activity"] as Tab[]).map(
             (t) => (
               <button
                 key={t}
@@ -131,11 +141,49 @@ function ConsoleShell() {
           {tab === "gigs" && <ContentTable table="gigs" />}
           {tab === "ads" && <ContentTable table="ads" />}
           {tab === "reports" && <ReportsTable />}
+          {tab === "business" && <BusinessApplicationsTable />}
+          {tab === "promotions" && <PromotionsTable />}
+          {tab === "payments" && <BusinessPaymentsTable />}
           {tab === "activity" && <ActivityTable />}
         </div>
       </div>
     </div>
   );
+}
+
+function BusinessApplicationsTable() {
+  const qc = useQueryClient();
+  const applications = useQuery({ queryKey: ["admin-business-applications"], queryFn: getAdminBusinessApplications });
+
+  async function review(application: BusinessApplication, status: BusinessApplication["status"]) {
+    const note = prompt("Internal note for this application (optional):", application.admin_note ?? "");
+    if (note === null) return;
+    try {
+      await reviewBusinessApplication(application.id, status, note);
+      qc.invalidateQueries({ queryKey: ["admin-business-applications"] });
+      toast.success(status === "approved" ? "Business access approved." : "Application updated.");
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : "Could not review application");
+    }
+  }
+
+  if (applications.isLoading) return <Loading />;
+  if (applications.isError) return <div className="text-sm text-coral">Could not load business applications.</div>;
+  return <div className="space-y-3">{(applications.data ?? []).map((application) => <div key={application.id} className="rounded-2xl border border-border bg-surface p-4"><div className="flex items-start justify-between gap-3"><div><div className="text-sm font-bold">{application.business_name}</div><div className="mt-1 text-[11px] text-muted-foreground">{application.category} · {application.location} · {application.phone}</div></div><span className="rounded-full bg-teal/10 px-2 py-1 text-[10px] font-bold capitalize text-teal">{application.status.replace("_", " ")}</span></div><div className="mt-3 grid gap-2 text-xs"><div><b>Offers:</b> {application.offer}</div>{application.description && <div className="text-muted-foreground"><b>About:</b> {application.description}</div>}{application.admin_note && <div className="rounded-xl bg-coral/5 p-3 text-coral"><b>Internal note:</b> {application.admin_note}</div>}</div><div className="mt-4 flex flex-wrap gap-2"><button onClick={() => review(application, "approved")} className="rounded-xl bg-whatsapp px-3 py-2 text-xs font-bold text-white">Approve</button><button onClick={() => review(application, "more_information")} className="rounded-xl border border-teal/40 px-3 py-2 text-xs font-bold text-teal">More information</button><button onClick={() => review(application, "rejected")} className="rounded-xl border border-coral/40 px-3 py-2 text-xs font-bold text-coral">Reject</button></div></div>)}{applications.data?.length === 0 && <div className="rounded-2xl border border-dashed border-border p-8 text-center text-xs text-muted-foreground">No business applications yet.</div>}</div>;
+}
+
+function PromotionsTable() {
+  const promotions = useQuery({ queryKey: ["admin-promotions"], queryFn: getAdminPromotions });
+  if (promotions.isLoading) return <Loading />;
+  if (promotions.isError) return <div className="text-sm text-coral">Could not load promotions.</div>;
+  return <div className="space-y-3"><div className="rounded-2xl border border-teal/30 bg-teal/5 p-4 text-xs text-teal">Promotions are started automatically after successful payment. This view is read-only.</div>{(promotions.data ?? []).map((promotion) => <div key={promotion.id} className="rounded-2xl border border-border bg-surface p-4"><div className="flex items-start justify-between gap-3"><div><div className="text-sm font-bold">{promotion.title}</div><div className="mt-1 text-[11px] text-muted-foreground">{promotion.category} · {promotion.location} · TZS {promotion.budget_amount.toLocaleString()}</div></div><span className="rounded-full bg-teal/10 px-2 py-1 text-[10px] font-bold capitalize text-teal">{promotion.status.replaceAll("_", " ")}</span></div><div className="mt-3 text-xs text-muted-foreground">Balance: TZS {promotion.remaining_balance.toLocaleString()} · Spent: TZS {promotion.spent_amount.toLocaleString()} · Strength: {promotion.promotion_strength}</div></div>)}{promotions.data?.length === 0 && <div className="rounded-2xl border border-dashed border-border p-8 text-center text-xs text-muted-foreground">No promotions yet.</div>}</div>;
+}
+
+function BusinessPaymentsTable() {
+  const payments = useQuery({ queryKey: ["admin-business-payments"], queryFn: getAdminBusinessPayments });
+  if (payments.isLoading) return <Loading />;
+  if (payments.isError) return <div className="text-sm text-coral">Could not load business payments.</div>;
+  return <div className="rounded-2xl border border-border overflow-x-auto"><table className="w-full min-w-[720px] text-xs"><thead className="bg-surface-elevated text-muted-foreground"><tr><Th>Amount</Th><Th>Status</Th><Th>Provider</Th><Th>Reference</Th><Th>Promotion</Th><Th>Created</Th><Th>Paid</Th></tr></thead><tbody>{(payments.data ?? []).map((payment) => <tr key={payment.id} className="border-t border-border/50"><Td className="font-bold">TZS {payment.amount.toLocaleString()}</Td><Td className="capitalize">{payment.status}</Td><Td>{payment.provider ?? "—"}</Td><Td className="font-mono">{payment.provider_reference ?? "—"}</Td><Td className="font-mono">{payment.promotion_id?.slice(0, 8) ?? "—"}</Td><Td>{new Date(payment.created_at).toLocaleString()}</Td><Td>{payment.paid_at ? new Date(payment.paid_at).toLocaleString() : "—"}</Td></tr>)}</tbody></table>{payments.data?.length === 0 && <div className="p-8 text-center text-xs text-muted-foreground">No business payments yet.</div>}</div>;
 }
 
 function ReportsTable() {

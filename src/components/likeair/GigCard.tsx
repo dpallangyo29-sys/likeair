@@ -130,6 +130,7 @@ function GigCardComponent({
                 <div className="flex items-center gap-1 text-xs font-semibold truncate group-hover:text-teal transition">
                   <span className="truncate">{poster.full_name || "Campus Poster"}</span>
                   {poster.verified && <span className="text-teal">✓</span>}
+                  {poster.business_verified && <span className="text-[9px] text-whatsapp">Business</span>}
                 </div>
                 <div className="text-[10px] text-muted-foreground font-semibold">
                   {poster.verified ? "Verified" : "New"} • {timeAgo(gig.created_at)}
@@ -150,6 +151,7 @@ function GigCardComponent({
                 <div className="flex items-center gap-1 text-xs font-semibold truncate">
                   <span className="truncate">{poster?.full_name || "Campus Poster"}</span>
                   {poster?.verified && <span className="text-teal">✓</span>}
+                  {poster?.business_verified && <span className="text-[9px] text-whatsapp">Business</span>}
                 </div>
                 <div className="text-[10px] text-muted-foreground font-semibold">
                   {poster?.verified ? "Verified" : "New"} • {timeAgo(gig.created_at)}

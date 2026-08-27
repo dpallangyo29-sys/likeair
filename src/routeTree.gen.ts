@@ -16,9 +16,17 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
+import { Route as AuthenticatedBusinessRouteImport } from './routes/_authenticated/business'
 import { Route as AuthenticatedPostRouteImport } from './routes/_authenticated/post'
 import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated/profile'
 import { Route as StoreSlugRouteImport } from './routes/store.$slug'
+import { Route as AuthenticatedBusinessApplyRouteImport } from './routes/_authenticated/business.apply'
+import { Route as AuthenticatedBusinessDashboardRouteImport } from './routes/_authenticated/business.dashboard'
+import { Route as AuthenticatedBusinessPaymentsRouteImport } from './routes/_authenticated/business.payments'
+import { Route as AuthenticatedBusinessPendingRouteImport } from './routes/_authenticated/business.pending'
+import { Route as AuthenticatedBusinessProfileRouteImport } from './routes/_authenticated/business.profile'
+import { Route as AuthenticatedBusinessPromotionsRouteImport } from './routes/_authenticated/business.promotions'
+import { Route as AuthenticatedBusinessPromotionsNewRouteImport } from './routes/_authenticated/business.promotions.new'
 import { Route as AuthenticatedEditKindIdRouteImport } from './routes/_authenticated/edit.$kind.$id'
 
 const IndexRoute = IndexRouteImport.update({
@@ -55,6 +63,11 @@ const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
   path: '/admin',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedBusinessRoute = AuthenticatedBusinessRouteImport.update({
+  id: '/business',
+  path: '/business',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedPostRoute = AuthenticatedPostRouteImport.update({
   id: '/post',
   path: '/post',
@@ -70,6 +83,48 @@ const StoreSlugRoute = StoreSlugRouteImport.update({
   path: '/store/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedBusinessApplyRoute =
+  AuthenticatedBusinessApplyRouteImport.update({
+    id: '/apply',
+    path: '/apply',
+    getParentRoute: () => AuthenticatedBusinessRoute,
+  } as any)
+const AuthenticatedBusinessDashboardRoute =
+  AuthenticatedBusinessDashboardRouteImport.update({
+    id: '/dashboard',
+    path: '/dashboard',
+    getParentRoute: () => AuthenticatedBusinessRoute,
+  } as any)
+const AuthenticatedBusinessPaymentsRoute =
+  AuthenticatedBusinessPaymentsRouteImport.update({
+    id: '/payments',
+    path: '/payments',
+    getParentRoute: () => AuthenticatedBusinessRoute,
+  } as any)
+const AuthenticatedBusinessPendingRoute =
+  AuthenticatedBusinessPendingRouteImport.update({
+    id: '/pending',
+    path: '/pending',
+    getParentRoute: () => AuthenticatedBusinessRoute,
+  } as any)
+const AuthenticatedBusinessProfileRoute =
+  AuthenticatedBusinessProfileRouteImport.update({
+    id: '/profile',
+    path: '/profile',
+    getParentRoute: () => AuthenticatedBusinessRoute,
+  } as any)
+const AuthenticatedBusinessPromotionsRoute =
+  AuthenticatedBusinessPromotionsRouteImport.update({
+    id: '/promotions',
+    path: '/promotions',
+    getParentRoute: () => AuthenticatedBusinessRoute,
+  } as any)
+const AuthenticatedBusinessPromotionsNewRoute =
+  AuthenticatedBusinessPromotionsNewRouteImport.update({
+    id: '/new',
+    path: '/new',
+    getParentRoute: () => AuthenticatedBusinessPromotionsRoute,
+  } as any)
 const AuthenticatedEditKindIdRoute = AuthenticatedEditKindIdRouteImport.update({
   id: '/edit/$kind/$id',
   path: '/edit/$kind/$id',
@@ -83,9 +138,17 @@ export interface FileRoutesByFullPath {
   '/privacy': typeof PrivacyRoute
   '/terms': typeof TermsRoute
   '/admin': typeof AuthenticatedAdminRoute
+  '/business': typeof AuthenticatedBusinessRouteWithChildren
   '/post': typeof AuthenticatedPostRoute
   '/profile': typeof AuthenticatedProfileRoute
   '/store/$slug': typeof StoreSlugRoute
+  '/business/apply': typeof AuthenticatedBusinessApplyRoute
+  '/business/dashboard': typeof AuthenticatedBusinessDashboardRoute
+  '/business/payments': typeof AuthenticatedBusinessPaymentsRoute
+  '/business/pending': typeof AuthenticatedBusinessPendingRoute
+  '/business/profile': typeof AuthenticatedBusinessProfileRoute
+  '/business/promotions': typeof AuthenticatedBusinessPromotionsRouteWithChildren
+  '/business/promotions/new': typeof AuthenticatedBusinessPromotionsNewRoute
   '/edit/$kind/$id': typeof AuthenticatedEditKindIdRoute
 }
 export interface FileRoutesByTo {
@@ -95,9 +158,17 @@ export interface FileRoutesByTo {
   '/privacy': typeof PrivacyRoute
   '/terms': typeof TermsRoute
   '/admin': typeof AuthenticatedAdminRoute
+  '/business': typeof AuthenticatedBusinessRouteWithChildren
   '/post': typeof AuthenticatedPostRoute
   '/profile': typeof AuthenticatedProfileRoute
   '/store/$slug': typeof StoreSlugRoute
+  '/business/apply': typeof AuthenticatedBusinessApplyRoute
+  '/business/dashboard': typeof AuthenticatedBusinessDashboardRoute
+  '/business/payments': typeof AuthenticatedBusinessPaymentsRoute
+  '/business/pending': typeof AuthenticatedBusinessPendingRoute
+  '/business/profile': typeof AuthenticatedBusinessProfileRoute
+  '/business/promotions': typeof AuthenticatedBusinessPromotionsRouteWithChildren
+  '/business/promotions/new': typeof AuthenticatedBusinessPromotionsNewRoute
   '/edit/$kind/$id': typeof AuthenticatedEditKindIdRoute
 }
 export interface FileRoutesById {
@@ -109,9 +180,17 @@ export interface FileRoutesById {
   '/privacy': typeof PrivacyRoute
   '/terms': typeof TermsRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRoute
+  '/_authenticated/business': typeof AuthenticatedBusinessRouteWithChildren
   '/_authenticated/post': typeof AuthenticatedPostRoute
   '/_authenticated/profile': typeof AuthenticatedProfileRoute
   '/store/$slug': typeof StoreSlugRoute
+  '/_authenticated/business/apply': typeof AuthenticatedBusinessApplyRoute
+  '/_authenticated/business/dashboard': typeof AuthenticatedBusinessDashboardRoute
+  '/_authenticated/business/payments': typeof AuthenticatedBusinessPaymentsRoute
+  '/_authenticated/business/pending': typeof AuthenticatedBusinessPendingRoute
+  '/_authenticated/business/profile': typeof AuthenticatedBusinessProfileRoute
+  '/_authenticated/business/promotions': typeof AuthenticatedBusinessPromotionsRouteWithChildren
+  '/_authenticated/business/promotions/new': typeof AuthenticatedBusinessPromotionsNewRoute
   '/_authenticated/edit/$kind/$id': typeof AuthenticatedEditKindIdRoute
 }
 export interface FileRouteTypes {
@@ -123,9 +202,17 @@ export interface FileRouteTypes {
     | '/privacy'
     | '/terms'
     | '/admin'
+    | '/business'
     | '/post'
     | '/profile'
     | '/store/$slug'
+    | '/business/apply'
+    | '/business/dashboard'
+    | '/business/payments'
+    | '/business/pending'
+    | '/business/profile'
+    | '/business/promotions'
+    | '/business/promotions/new'
     | '/edit/$kind/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -135,9 +222,17 @@ export interface FileRouteTypes {
     | '/privacy'
     | '/terms'
     | '/admin'
+    | '/business'
     | '/post'
     | '/profile'
     | '/store/$slug'
+    | '/business/apply'
+    | '/business/dashboard'
+    | '/business/payments'
+    | '/business/pending'
+    | '/business/profile'
+    | '/business/promotions'
+    | '/business/promotions/new'
     | '/edit/$kind/$id'
   id:
     | '__root__'
@@ -148,9 +243,17 @@ export interface FileRouteTypes {
     | '/privacy'
     | '/terms'
     | '/_authenticated/admin'
+    | '/_authenticated/business'
     | '/_authenticated/post'
     | '/_authenticated/profile'
     | '/store/$slug'
+    | '/_authenticated/business/apply'
+    | '/_authenticated/business/dashboard'
+    | '/_authenticated/business/payments'
+    | '/_authenticated/business/pending'
+    | '/_authenticated/business/profile'
+    | '/_authenticated/business/promotions'
+    | '/_authenticated/business/promotions/new'
     | '/_authenticated/edit/$kind/$id'
   fileRoutesById: FileRoutesById
 }
@@ -215,6 +318,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/business': {
+      id: '/_authenticated/business'
+      path: '/business'
+      fullPath: '/business'
+      preLoaderRoute: typeof AuthenticatedBusinessRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/post': {
       id: '/_authenticated/post'
       path: '/post'
@@ -236,6 +346,55 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof StoreSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/business/apply': {
+      id: '/_authenticated/business/apply'
+      path: '/apply'
+      fullPath: '/business/apply'
+      preLoaderRoute: typeof AuthenticatedBusinessApplyRouteImport
+      parentRoute: typeof AuthenticatedBusinessRoute
+    }
+    '/_authenticated/business/dashboard': {
+      id: '/_authenticated/business/dashboard'
+      path: '/dashboard'
+      fullPath: '/business/dashboard'
+      preLoaderRoute: typeof AuthenticatedBusinessDashboardRouteImport
+      parentRoute: typeof AuthenticatedBusinessRoute
+    }
+    '/_authenticated/business/payments': {
+      id: '/_authenticated/business/payments'
+      path: '/payments'
+      fullPath: '/business/payments'
+      preLoaderRoute: typeof AuthenticatedBusinessPaymentsRouteImport
+      parentRoute: typeof AuthenticatedBusinessRoute
+    }
+    '/_authenticated/business/pending': {
+      id: '/_authenticated/business/pending'
+      path: '/pending'
+      fullPath: '/business/pending'
+      preLoaderRoute: typeof AuthenticatedBusinessPendingRouteImport
+      parentRoute: typeof AuthenticatedBusinessRoute
+    }
+    '/_authenticated/business/profile': {
+      id: '/_authenticated/business/profile'
+      path: '/profile'
+      fullPath: '/business/profile'
+      preLoaderRoute: typeof AuthenticatedBusinessProfileRouteImport
+      parentRoute: typeof AuthenticatedBusinessRoute
+    }
+    '/_authenticated/business/promotions': {
+      id: '/_authenticated/business/promotions'
+      path: '/promotions'
+      fullPath: '/business/promotions'
+      preLoaderRoute: typeof AuthenticatedBusinessPromotionsRouteImport
+      parentRoute: typeof AuthenticatedBusinessRoute
+    }
+    '/_authenticated/business/promotions/new': {
+      id: '/_authenticated/business/promotions/new'
+      path: '/new'
+      fullPath: '/business/promotions/new'
+      preLoaderRoute: typeof AuthenticatedBusinessPromotionsNewRouteImport
+      parentRoute: typeof AuthenticatedBusinessPromotionsRoute
+    }
     '/_authenticated/edit/$kind/$id': {
       id: '/_authenticated/edit/$kind/$id'
       path: '/edit/$kind/$id'
@@ -246,8 +405,48 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface AuthenticatedBusinessPromotionsRouteChildren {
+  AuthenticatedBusinessPromotionsNewRoute: typeof AuthenticatedBusinessPromotionsNewRoute
+}
+
+const AuthenticatedBusinessPromotionsRouteChildren: AuthenticatedBusinessPromotionsRouteChildren =
+  {
+    AuthenticatedBusinessPromotionsNewRoute:
+      AuthenticatedBusinessPromotionsNewRoute,
+  }
+
+const AuthenticatedBusinessPromotionsRouteWithChildren =
+  AuthenticatedBusinessPromotionsRoute._addFileChildren(
+    AuthenticatedBusinessPromotionsRouteChildren,
+  )
+
+interface AuthenticatedBusinessRouteChildren {
+  AuthenticatedBusinessApplyRoute: typeof AuthenticatedBusinessApplyRoute
+  AuthenticatedBusinessDashboardRoute: typeof AuthenticatedBusinessDashboardRoute
+  AuthenticatedBusinessPaymentsRoute: typeof AuthenticatedBusinessPaymentsRoute
+  AuthenticatedBusinessPendingRoute: typeof AuthenticatedBusinessPendingRoute
+  AuthenticatedBusinessProfileRoute: typeof AuthenticatedBusinessProfileRoute
+  AuthenticatedBusinessPromotionsRoute: typeof AuthenticatedBusinessPromotionsRouteWithChildren
+}
+
+const AuthenticatedBusinessRouteChildren: AuthenticatedBusinessRouteChildren = {
+  AuthenticatedBusinessApplyRoute: AuthenticatedBusinessApplyRoute,
+  AuthenticatedBusinessDashboardRoute: AuthenticatedBusinessDashboardRoute,
+  AuthenticatedBusinessPaymentsRoute: AuthenticatedBusinessPaymentsRoute,
+  AuthenticatedBusinessPendingRoute: AuthenticatedBusinessPendingRoute,
+  AuthenticatedBusinessProfileRoute: AuthenticatedBusinessProfileRoute,
+  AuthenticatedBusinessPromotionsRoute:
+    AuthenticatedBusinessPromotionsRouteWithChildren,
+}
+
+const AuthenticatedBusinessRouteWithChildren =
+  AuthenticatedBusinessRoute._addFileChildren(
+    AuthenticatedBusinessRouteChildren,
+  )
+
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedAdminRoute: typeof AuthenticatedAdminRoute
+  AuthenticatedBusinessRoute: typeof AuthenticatedBusinessRouteWithChildren
   AuthenticatedPostRoute: typeof AuthenticatedPostRoute
   AuthenticatedProfileRoute: typeof AuthenticatedProfileRoute
   AuthenticatedEditKindIdRoute: typeof AuthenticatedEditKindIdRoute
@@ -255,6 +454,7 @@ interface AuthenticatedRouteRouteChildren {
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAdminRoute: AuthenticatedAdminRoute,
+  AuthenticatedBusinessRoute: AuthenticatedBusinessRouteWithChildren,
   AuthenticatedPostRoute: AuthenticatedPostRoute,
   AuthenticatedProfileRoute: AuthenticatedProfileRoute,
   AuthenticatedEditKindIdRoute: AuthenticatedEditKindIdRoute,
