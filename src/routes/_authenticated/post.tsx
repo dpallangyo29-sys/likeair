@@ -1,4 +1,4 @@
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate, useSearch } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import {
@@ -42,7 +42,7 @@ export const Route = createFileRoute("/_authenticated/post")({
 });
 
 function PostPage() {
-  const { kind: requestedKind, intent } = Route.useSearch();
+  const { kind: requestedKind, intent } = useSearch({ from: "/_authenticated/post" });
   const [kind, setKind] = useState<PostKind>(requestedKind ?? "product");
   const [termsOk, setTermsOk] = useState<boolean | null>(null);
   const [accepting, setAccepting] = useState(false);
